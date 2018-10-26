@@ -1,0 +1,144 @@
+/* 
+    Created on : Jun 10, 2015, 10:27:26 AM
+    Author     : Robert Erickson
+*/
+@import url('reset.css');
+/*------------------------   standard elements  ----------------------------- */
+body{
+    margin: 0 5% 0 5%;
+}
+article{
+    padding: 2em;
+}
+
+figcaption {
+    color: #839e99;
+    font-style: italic;
+    text-align: center;
+}
+
+figure{
+    border: thin solid darkslategray;
+    border-radius: 0.4em;
+    padding: 0.5em;
+}
+footer{
+    clear: both;
+}
+
+h1, h2{
+    padding: 0.5em 0 .5em 0;
+}
+
+h1{
+    background-color: lightgreen;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-bottom: darkgreen ridge thick;
+    border-top: darkgreen ridge thick;
+    align-content: center;
+}
+header{
+    overflow: auto; /* forces header to fit to figure */
+}
+
+img{
+    border-radius: 0.4em;
+    width: auto;
+    height: 225px;
+    max-height: 225px;
+}
+
+p{
+    padding: 1em 0 1em 0;   
+}
+section{
+    padding: 2em;
+    width: 40%;  
+}
+
+/*------------------------   classes           ------------------------------ */
+
+p:nth-child(odd){
+    background-color: whitesmoke;
+}
+
+p:nth-child(even){
+    background-color: lightcyan;
+}
+
+td:nth-child(odd){
+    background-color: whitesmoke;
+    align-items:  center;
+}
+
+td:nth-child(even){
+    background-color: lightcyan;
+    align-items:  center;
+}
+.float_right {
+    float: right;
+    margin-left: 1em;
+}
+
+.float_left {
+    border: thin solid darkslategray;
+    float: left;
+    margin: 1em 1em 1em 0;
+    padding: 0.5em;
+}
+
+.small {
+    width: 150px;
+}
+
+/*------------------------   nav section only  ------------------------------ */
+
+nav {
+    background-color: lightgreen;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-bottom: darkgreen ridge thick;
+    border-top: darkgreen ridge thick;
+    align-content: center;
+}
+nav ol li{
+    display: inline-block;
+    list-style-type: none;
+    padding-right: 2em;
+}
+/*------------------------   table page  only  ------------------------------ */
+#table aside{
+    height: 600px; 
+    float: left; 
+    overflow: auto; 
+    margin-left: 2em;            
+}
+#table section{
+    width: 35%; 
+    height: 600px; 
+    float: left; 
+    overflow: auto;
+}
+#table table{
+    border: medium #000080 solid;
+    border-collapse: collapse;
+}
+
+#table td {
+    border: thin #000080 solid;
+    border-collapse: collapse;
+}
+
+body p.noticeMe{
+    background-color: #cc0033;
+    color: wheat;
+}
+
+#index table{
+    border: thin black solid;
+}
+
+#table th{
+    text-align: center;
+}
