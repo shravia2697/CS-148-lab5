@@ -1,5 +1,5 @@
 <?php
-define('DATABASE_NAME', 'SSUDDALA_lab4');
+define('DATABASE_NAME', 'SSUDDALA_lab5');
 define('DATABASE_READER', 'ssuddala_reader');
 define('DATABASE_READER_PWD', 'r');
 define('DATABASE_WRITER_PWD', 'w');
