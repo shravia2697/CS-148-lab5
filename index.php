@@ -25,7 +25,13 @@ if (DEBUG) {
     print_r($records);
     print '</pre></p>';
 }
-
+if ($isAdmin){
+    print '<ol><li ';
+    if ($path_parts['filename']== 'form'){
+        print ' class="activePage" ';
+    }
+    print '><a href="form-trails.php">Edit</a></li></ol>';
+}
 print '<h2 class="alternateRows">Information on the different Trails</h2>';
 print "<table>
        <tr>
@@ -34,14 +40,7 @@ print "<table>
        <th> Hiking Time in Hours </th>
        <th> Vertical Rise in Feet</th>
        <th> Rating </th>
-       </tr>";
-if ($isAdmin){
-    print '<ol><li ';
-    if ($path_parts['filename']== 'form'){
-        print ' class="activePage" ';
-    }
-    print '><a href="form-trails.php">Edit</a></li></ol>';
-} 
+       </tr>"; 
 if (is_array($records)) {
     foreach ($records as $record) {
         print "<tr>";
