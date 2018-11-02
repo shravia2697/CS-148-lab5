@@ -1,6 +1,7 @@
 <?php
 include 'top.php';
 ?>
+<a href="form-trails.php"> Add new trail </a>
 <?php
 //##############################################################################
 //
@@ -34,6 +35,13 @@ print "<table>
        <th> Vertical Rise in Feet</th>
        <th> Rating </th>
        </tr>";
+if ($isAdmin){
+    print '<ol><li ';
+    if ($path_parts['filename']== 'form'){
+        print ' class="activePage" ';
+    }
+    print '><a href="form-trails.php">Edit</a></li></ol>';
+} 
 if (is_array($records)) {
     foreach ($records as $record) {
         print "<tr>";
@@ -41,8 +49,7 @@ if (is_array($records)) {
         print "<td> " . "" . $record['fldHikingTime'] . "" . " </td>" ."" ;
         print "<td> " . "" . $record['fldVerticalRise'] . "" . " </td>" ."" ;
         print "<td> " . "" . $record['fldRating'] . "" . " </td>" . "" ;
-        print "</tr>";
-        
+        print "</tr>"; 
     }
 }
 print '</table>';

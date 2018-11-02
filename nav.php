@@ -15,6 +15,12 @@
             print ' class="activePage" ';
         }
         print '><a href="form.php">Form</a></li>';
+        
+        print '<li';
+        if ($path_parts['filename'] == 'form-trails') {
+            print ' class="activePage" ';
+        }
+        print '><a href="form-trails.php">Add Trails</a></li>';
        
         print '<li';
         if ($path_parts['filename'] == 'tables') {
