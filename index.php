@@ -1,7 +1,6 @@
 <?php
 include 'top.php';
 ?>
-<a href="form-trails.php"> Add new trail </a>
 <?php
 //##############################################################################
 //
@@ -9,8 +8,9 @@ include 'top.php';
 // 
 //##############################################################################
 $records = '';
+$currentRecord='1';
 
-$query = 'SELECT fldTrailName, fldTotalDistance, fldHikingTime, fldVerticalRise, fldRating FROM tblTrails ORDER BY fldTrailName ';
+$query = 'SELECT pmkTrailsId, fldTrailName, fldTotalDistance, fldHikingTime, fldVerticalRise, fldRating FROM tblTrails ORDER BY fldTrailName ';
 
 // NOTE: The full method call would be:
 //           $thisDatabaseReader->querySecurityOk($query, 0, 0, 0, 0, 0)
@@ -26,15 +26,16 @@ if (DEBUG) {
     print '</pre></p>';
 }
 if ($isAdmin){
-    print '<ol><li ';
     if ($path_parts['filename']== 'form'){
         print ' class="activePage" ';
     }
-    print '><a href="form-trails.php">Edit</a></li></ol>';
+    print '<a href="form-trails.php">Edit</a> ';
 }
+
 print '<h2 class="alternateRows">Information on the different Trails</h2>';
 print "<table>
        <tr>
+       <th> Trail ID </th>
        <th>Name </th>
        <th> Distance in Miles</th>
        <th> Hiking Time in Hours </th>
@@ -44,6 +45,7 @@ print "<table>
 if (is_array($records)) {
     foreach ($records as $record) {
         print "<tr>";
+        print "<td> " ."" . $record['pmkTrailsId'] . " </td> " . "";
         print "<td> " . "" . $record['fldTrailName'] . " </td> ". "" . " <td> " . "" . $record['fldTotalDistance'] . " </td>" ."" ;
         print "<td> " . "" . $record['fldHikingTime'] . "" . " </td>" ."" ;
         print "<td> " . "" . $record['fldVerticalRise'] . "" . " </td>" ."" ;

@@ -32,5 +32,11 @@ function verifyDate($date, $format = 'Y-m-d') {
     $d = DateTime::createFromFormat($format, $date);
     return $d && $d->format($format) == $date;
 }
+
+//https://stackoverflow.com/questions/8318236/regex-pattern-for-hhmmss-time-string
+function verifyTime($testString){
+    $regex = '^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$';
+    return (preg_match($regex, $testString));
+}
 print PHP_EOL . '<!--  END include validation-functions -->' . PHP_EOL;
 ?>
