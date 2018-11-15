@@ -25,7 +25,7 @@ $verticalRise= "";
 $trailRating = "";
 $trails ="";
 $tags= "";
-$ratings = "";
+$ids=0;
 
 $query = "SELECT pmkTrailsId,fldTrailName, fldTotalDistance, fldHikingTime, fldVerticalRise, fldRating, fldDefaultValue ";
 $query .= "FROM tblTrails ";
@@ -34,23 +34,18 @@ $query .= "ORDER BY fldTrailName";
 $query1 = 'SELECT pmkTrailsId, fldTrailName, fldTotalDistance, fldHikingTime, fldVerticalRise, fldRating ';
 $query1 .= 'FROM tblTrails WHERE pmkTrailsId = ?';
 
+$query2 = "SELECT pmkTag,fldDefaultValue  ";
+$query2 .= "FROM tblTags ";
+$query2 .= "ORDER BY fldDisplayOrder";
+
 if ($thisDatabaseReader->querySecurityOk($query, 1, 0)) {
     $query = $thisDatabaseReader->sanitizeQuery($query);
     $trails = $thisDatabaseReader->select($query, '');
 }
 
-if ($thisDatabaseReader->querySecurityOk($query, 0, 1)) {
-    $query = $thisDatabaseReader->sanitizeQuery($query);
-    $ratings = $thisDatabaseReader->select($query, '');
-}
-
-$query = "SELECT pmkTag,fldDefaultValue  ";
-$query .= "FROM tblTags ";
-$query .= "ORDER BY fldDisplayOrder";
-
-if ($thisDatabaseReader->querySecurityOk($query, 0, 1)) {
-    $query = $thisDatabaseReader->sanitizeQuery($query);
-    $tags = $thisDatabaseReader->select($query, '');
+if ($thisDatabaseReader->querySecurityOk($query2, 0, 1)) {
+    $query2 = $thisDatabaseReader->sanitizeQuery($query2);
+    $tags = $thisDatabaseReader->select($query2, '');
 }
 
 if (isset($_GET["id"])){
@@ -99,10 +94,8 @@ if (isset($_POST["btnSubmit"])){
     }
     print PHP_EOL . '<!-- SECTION: 2b Sanitize (clean) data  -->' . PHP_EOL;
     
-    $pmkId = (int) htmlentities($_POST["hidTrailsId"], ENT_QUOTES, "UTF-8");
-    if ($pmkTrailsId > 0) {
-        $update = true;
-    }
+    $pmkId = (int) htmlentities($ids, ENT_QUOTES, "UTF-8");
+    $data = array($pmkId);
 
     $trailNameNew = htmlentities($_POST["txtTrailNameNew"], ENT_QUOTES, "UTF-8");
     $trailDistance = htmlentities($_POST["numTrailDistance"], ENT_QUOTES, "UTF-8");
@@ -115,38 +108,23 @@ if (isset($_POST["btnSubmit"])){
     if($trailName == ""){
         $errorMsg[] ="Please enter the trail name.";
         $trailNameERROR = true;
-    } elseif (!verifyAlphaNum($trailName)) {
-        $errorMsg[] = "Your trail name seems to have an extra character.";
-        $trailNameERROR = true;
-    }    
+    }   
     if($trailDistance == ""){
         $errorMsg[] ="Please enter the trail distance.";
         $trailDistanceERROR = true;
-    } elseif (!verifyNumeric($trailDistance)) {
-        $errorMsg[] = "Please enter trail distance";
-        $trailDistanceERROR = true;
-    }    
+    }     
     if($hikingTime == ""){
         $errorMsg[] ="Please enter the hiking time.";
         $hikingTimeERROR = true;
-    } elseif (!verifyAlphaNum($hikingTime)) {
-        $errorMsg[] = "Please enter the hiking time.";
-        $hikingTimeERROR = true;
-    }
+    } 
     if($verticalRise == ""){
         $errorMsg[] ="Please enter the vertical rise.";
         $verticalRiseERROR = true;
-    } elseif (!verifyAlphaNum($verticalRise)) {
-        $errorMsg[] = "Please enter the vertical rise.";
-        $verticalRiseERROR = true;
-    }
+    } 
     if($trailRating == ""){
         $errorMsg[] ="Please enter the trail rating.";
         $trailRatingERROR = true;
-    } elseif (!verifyAlphaNum($trailRating)) {
-        $errorMsg[] = "Please enter the trail rating.";
-        $trailRatingERROR = true;
-    }   
+    }    
     print PHP_EOL . '<!-- SECTION: 2d Process Form - Passed Validation -->' . PHP_EOL;
     if (!$errorMsg) {
         if (DEBUG) {
@@ -155,7 +133,6 @@ if (isset($_POST["btnSubmit"])){
 
         print PHP_EOL . '<!-- SECTION: 2e Save Data -->' . PHP_EOL;
 
-        $dataEntered = false;
         $data[]= array();
         
         $data[]= $trailName;
@@ -184,7 +161,7 @@ if (isset($_POST["btnSubmit"])){
             }
             if($update){
               $query .= 'WHERE pmkTrailsId = ? ';
-              $data[] = $pmkTrailsId;
+              $data[] = $pmkUpdateId;
               
               if ($thisDatabaseReader->querySecurityOk($query, 1)) {
                     $query = $thisDatabaseWriter->sanitizeQuery($query);
@@ -202,7 +179,6 @@ if (isset($_POST["btnSubmit"])){
             if (DEBUG) {
                 print "<p>pmk= " . $primaryKey;
             }
-            $dataEntered = $thisDatabaseWriter->db->commit();
 
             if (DEBUG)
                 print "<p>transaction complete ";
@@ -226,7 +202,7 @@ print PHP_EOL . '<!-- SECTION 3 Display Form -->' . PHP_EOL;
         <?php
         print PHP_EOL . '<!-- SECTION 3a  -->' . PHP_EOL;
 
-        if ($dataEntered) { // closing of if marked with: end body submit
+        if (isset($_POST["btnSubmit"]) AND empty($errorMsg)) {// closing of if marked with: end body submit
             print "<h1>Record Saved</h1> ";
 
             // Display the message you created in in SECTION: 2f
@@ -251,9 +227,6 @@ print PHP_EOL . '<!-- SECTION 3 Display Form -->' . PHP_EOL;
             <form action="<?php print PHP_SELF; ?>"
                   method="post"
                   id="frmRegister">
-                <input type="hidden" id="hidPoetId" name="hidPoetId"
-                       value="<?php print $pmkTrailsId; ?>"
-                       >
                 <fieldset class = "contact">
                     <p>
                         <label class="required" for="txtTrailNameNew">Trail Name</label>  
